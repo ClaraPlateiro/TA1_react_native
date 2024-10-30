@@ -6,25 +6,37 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import React, { useState } from 'react';
-import { FlatList, GestureHandlerRootView } from 'react-native-gesture-handler';
+import { FlatList, GestureHandlerRootView, ScrollView } from 'react-native-gesture-handler';
 import { Text } from 'react-native';
 
 
 export default function HomeScreen() {
   const [text, onChangeText] = useState('');
   const [tasks, setTasks] = useState([]);
+  const [count, setCount] = useState(0);
 
   const agregarTarea = () => {
     setTasks([...tasks, text]);
     onChangeText('');
+    setCount(count + 1);
   }
 
   const eliminarTarea = (taskToDelete) => {
     setTasks(tasks.filter(task => task !== taskToDelete));
+    if (count > 0){
+      setCount(count - 1);
+    }else{
+      setCount(0);
+    }
   };
+
+  const aumentarTarea = () => {
+    setCount(count + 1);
+  }
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
+      <ScrollView>
       <SafeAreaProvider>
         <ThemedView style={styles.titleContainer}>
           <ThemedText type="title">Lista de Tareas</ThemedText>
@@ -54,7 +66,25 @@ export default function HomeScreen() {
             keyExtractor={item => item}
           />
         </SafeAreaView>
+        <SafeAreaView>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              onPress={aumentarTarea}
+              style={styles.button}
+            >
+              <Text style={styles.buttonText}>+</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={eliminarTarea}
+              style={styles.button}
+            >
+              <Text style={styles.buttonText}>-</Text>
+            </TouchableOpacity>
+          </View>
+          <Text style={styles.taskText}>Cantidad: {count}</Text>
+        </SafeAreaView>
       </SafeAreaProvider>
+      </ScrollView>
     </GestureHandlerRootView>
   );
 }
@@ -85,5 +115,29 @@ const styles = StyleSheet.create({
   deleteButtonText: {
     color: 'white',
     fontWeight: 'bold',
+  },
+  titleContainer: {
+    marginTop: 50,
+    alignItems: 'center',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 20,
+  },
+  button: {
+    backgroundColor: '#007AFF',
+    padding: 10,
+    marginHorizontal: 10,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 20,
+  },
+  taskText: {
+    marginTop: 20,
+    fontSize: 18,
+    textAlign: 'center',
   },
 });
