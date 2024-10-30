@@ -12,14 +12,14 @@ import { Text } from 'react-native';
 
 export default function HomeScreen() {
   const [text, onChangeText] = useState('');
-  const [tasks, setTasks] = useState<string[]>([]);
+  const [tasks, setTasks] = useState([]);
 
   const agregarTarea = () => {
     setTasks([...tasks, text]);
     onChangeText('');
   }
 
-  const eliminarTarea = (taskToDelete: string) => {
+  const eliminarTarea = (taskToDelete) => {
     setTasks(tasks.filter(task => task !== taskToDelete));
   };
 
