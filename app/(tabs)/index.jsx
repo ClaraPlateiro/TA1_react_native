@@ -34,9 +34,13 @@ export default function HomeScreen() {
     setCount(count + 1);
   }
 
+  const disminuirTarea = () => {
+    setCount(count > 0 ? count - 1 : 0);
+  };
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <ScrollView>
+      {/* <ScrollView> */}
       <SafeAreaProvider>
         <ThemedView style={styles.titleContainer}>
           <ThemedText type="title">Lista de Tareas</ThemedText>
@@ -68,28 +72,38 @@ export default function HomeScreen() {
         </SafeAreaView>
         <SafeAreaView>
           <View style={styles.buttonContainer}>
-            <TouchableOpacity
-              onPress={aumentarTarea}
-              style={styles.button}
-            >
-              <Text style={styles.buttonText}>+</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={eliminarTarea}
-              style={styles.button}
+          <TouchableOpacity
+              onPress={disminuirTarea}
+              style={styles.buttonRemove}
             >
               <Text style={styles.buttonText}>-</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={aumentarTarea}
+              style={styles.buttonAdd}
+            >
+              <Text style={styles.buttonText}>+</Text>
             </TouchableOpacity>
           </View>
           <Text style={styles.taskText}>Cantidad: {count}</Text>
         </SafeAreaView>
       </SafeAreaProvider>
-      </ScrollView>
+      {/* </ScrollView> */}
     </GestureHandlerRootView>
   );
 }
 
 const styles = StyleSheet.create({
+  buttonAdd: {
+    backgroundColor: '#006400',
+    padding: 10,
+    marginHorizontal: 10,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 20,
+  },
   input: {
     height: 40,
     margin: 12,
@@ -125,15 +139,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 20,
   },
-  button: {
-    backgroundColor: '#007AFF',
+  buttonRemove: {
+    backgroundColor: 'red',
     padding: 10,
     marginHorizontal: 10,
     borderRadius: 5,
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 20,
   },
   taskText: {
     marginTop: 20,
